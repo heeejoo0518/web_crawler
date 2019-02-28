@@ -11,8 +11,6 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 
 baseUrl = "http://people.incruit.com/resumeguide/pdslist.asp"
-savePath="c:/resumes.txt"
-saveFile = open(savePath,'w',encoding='utf8')
 
 for i in range(4):#142
     values = {
@@ -33,21 +31,24 @@ for i in range(4):#142
     for link in links:
         href = link.attrs['href']
         href = "http://people.incruit.com/resumeguide/pdsview.asp?"+href[1:]
-        #print(href)
 
         res = req.urlopen(href).read()
         soup = BeautifulSoup(res,"html.parser")
         infos = soup.select('#detail_info > span.cont > div > p')
+
+        title = soup.select('#content > div.bbsview_title > h2')[0].get_text().strip()
+        title = title.replace("/","_")
+
+        savePath="c:/"+title+".txt"
+        saveFile = open(savePath,'w',encoding='utf8')
+
         for info in infos:
-            print(info.get_text().strip())
             saveFile.write(info.get_text().strip())
             saveFile.write("\n")
+
         resumes = soup.select('#detail_info > span.cont > p')
         for resume in resumes:
-            print(resume.get_text().strip())
             saveFile.write(resume.get_text().strip())
             saveFile.write("\n")
-        saveFile.write("\n")
-    
+        saveFile.close()
 
-saveFile.close()
