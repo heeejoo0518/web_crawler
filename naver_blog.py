@@ -38,8 +38,9 @@ for word in keyword:
             title = blog.find_element_by_class_name("title").text
             saveFile.write(title)
             print(title)
-            body = blog.find_element_by_class_name("text").text
-            saveFile.write(body)
+            if blog.find_element_by_class_name("text").__sizeof__() > 0:
+                body = blog.find_element_by_class_name("text").text
+                saveFile.write(body)
 
         driver.get(baseUrl + "&pageNo=" + str(page+1)+"&keyword="+word)
 
