@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime
 
 keyword = ["소통", "팀워크", "협력", "도전", "능동", "열정", "적극", "성실", "근면", "정직", "인내심", "창의", "글로벌역량", "주인의식", "책임"]#15개
@@ -41,7 +42,7 @@ for word in keyword:
             try:
                 body = blog.find_element_by_class_name("text").text
                 saveFile.write(body)
-            except:
+            except NoSuchElementException:
                 print("본문없음")
 
         driver.get(baseUrl + "&pageNo=" + str(page+1)+"&keyword="+word)
