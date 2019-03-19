@@ -44,6 +44,7 @@ for word in keyword:
                 saveFile.write(body)
             except NoSuchElementException:
                 print("본문없음")
+                continue
 
         driver.get(baseUrl + "&pageNo=" + str(page+1)+"&keyword="+word)
 
